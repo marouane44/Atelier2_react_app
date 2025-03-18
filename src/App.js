@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Banner from './components/Banner';
+import Cart from './components/Cart';
+import ProductList from './components/ProductList';
+import Footer from './components/Footer';
+import Categories from './components/Categories';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [cartItems, setCartItems] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('all');
+
+    const products = [
+        { id: 1, name: 'Collier en Or', scale: 3, category: 'necklace', price: 120 },
+        { id: 2, name: 'Bracelet Argent', scale: 2, category: 'bracelet', price: 80 },
+        { id: 3, name: 'Bague Diamant', scale: 4, category: 'ring', price: 200 }
+    ];
+
+    const handleAddToCart = (productName, productPrice) => {
+        setCartItems([...cartItems, { name: productName, price: productPrice }]);
+    };
+    
+
+    return (
+        <div>
+            <Banner />
+            <Categories selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+            <Cart items={cartItems} />
+            <ProductList
+                products={products}
+                onAddToCart={handleAddToCart}
+                selectedCategory={selectedCategory}
+            />
+            <Footer />
+        </div>
+    );
 }
 
 export default App;
